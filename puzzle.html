@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Image tiles</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel = "stylesheet"
+   type = "text/css"
+   href = "layout.css" />
+
+</head>
+<body id="body">
+<div class="container" style="background-color: #e3f2fd;">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Tile puzzle</a>
+  </nav>
+</div>
+
+<br><br>
+
+<div id="ena" style="position: relative; left: 20%;float: left;">
+    <div style="position: relative;">
+      <div id="main" ></div>
+    </div>
+</div>
+    
+
+<script>
+let w = document.getElementById("body").clientWidth;
+console.log(50*(w-600)/w + "%");
+document.getElementById("ena").style.left = 50*(w-600)/w + "%";
+
+let body = document.getElementById("main");
+function eventFire(el, etype){
+  if (el.fireEvent) {
+    el.fireEvent('on' + etype);
+  } else {
+    var evObj = document.createEvent('Events');
+    evObj.initEvent(etype, true, false);
+    el.dispatchEvent(evObj);
+  }
+}
+
+
+let emptytop = '0px';
+let emptyleft = '0px';
+
+for (var i = 1; i < 9; i++) {
+  let button = document.createElement("IMG");
+  button.setAttribute('style','cursor: pointer;');
+  button.setAttribute("src", "slike/"+(i+1)+".jpeg");
+  button.setAttribute("width", "200");
+  button.setAttribute("height", "200");
+  
+  button.style.position = 'absolute';
+  button.style.left = (i%3)*200 + 'px';
+  button.style.top = (Math.floor(i/3))*200 + 'px';
+  button.style.border = "hidden";
+  
+  button.addEventListener ("click", function() {
+    if(button.style.top == '0px' || button.style.top == '200px') { //dol
+        let bb = parseInt(button.style.top.substring(0,3));
+        if (emptytop==(200+bb+'px') && emptyleft == button.style.left) {
+            emptytop = bb+'px';
+            button.style.top = bb+200+'px';
+            return;
+        }
+    }
+    if(button.style.top == '200px' || button.style.top == '400px') { //gor
+        let bb = parseInt(button.style.top.substring(0,3));
+        if (emptytop==(bb-200+'px') && emptyleft == button.style.left) {
+            emptytop = bb+'px';
+            button.style.top = bb-200+'px';
+            return;
+        }
+    }
+    if(button.style.left == '0px' || button.style.left == '200px') { //desno
+        let bb = parseInt(button.style.left.substring(0,3));
+        if (emptyleft==(bb+200+'px') && emptytop == button.style.top) {
+            emptyleft = bb+'px';
+            button.style.left = bb+200+'px';
+            return;
+        }
+    }
+    if(button.style.left == '200px' || button.style.left == '400px') { //levo
+        let bb = parseInt(button.style.left.substring(0,3));
+        if (emptyleft==(bb-200+'px') && emptytop == button.style.top) {
+            emptyleft = bb+'px';
+            button.style.left = bb-200+'px';
+            return;
+        }
+    }
+  });
+  body.appendChild(button);
+}
+
+let meme = document.createElement("nn");
+meme.setAttribute('style','font-size: 20px; cursor: pointer; text-align:center;');
+meme.innerHTML = "shuffle";
+meme.style.width = '600px'; meme.style.height = '30px';
+meme.style.position = 'absolute';
+meme.style.left = '0px';
+meme.style.top = '600px';
+meme.style.backgroundColor="#e3f2fd";
+  meme.addEventListener ("click", function() {
+    let vv = body.childNodes;
+    for (var i = 0; i < 100; i++) {
+        var mm = Math.floor(Math.random()*8);
+        vv[mm].click();
+    }
+  });
+body.appendChild(meme);
+
+</script>
+</body>
+</html>
